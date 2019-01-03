@@ -6,14 +6,14 @@ from pygame.sprite import Sprite
 class Bullet(Sprite):
     """一个对飞船发射子弹进行管理的类"""
 
-    def __init__(self,ai_settings,screen,ship):
+    def __init__(self, ai_settings, screen, ship):
         """"在飞船所处的位置创建一个子弹对象"""
         # 将父类Sprite的对象转换为Bullet对象
         super().__init__()
         self.screen = screen
 
-#         在0，0处创建一个表示子弹的矩形，在设置飞船所在的位置
-        self.rect = pygame.Rect(0,0,ai_settings.bullet_width,ai_settings.bullet_height)
+        #         在0，0处创建一个表示子弹的矩形，在设置飞船所在的位置
+        self.rect = pygame.Rect(0, 0, ai_settings.bullet_width, ai_settings.bullet_height)
         self.rect.centerx = ship.rect.centerx
 
         self.rect.top = ship.rect.top
@@ -28,8 +28,8 @@ class Bullet(Sprite):
         """向上移动子弹"""
         self.y -= self.speed_factor
 
-        #更新表示子弹rect的位置
+        # 更新表示子弹rect的位置
         self.rect.y = self.y
 
     def draw_bullet(self):
-        pygame.draw.rect(self.screen,self.color,self.rect)
+        pygame.draw.rect(self.screen, self.color, self.rect)

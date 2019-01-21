@@ -6,6 +6,7 @@ from setting import Settings
 from ship import Ship
 from alien import Alien
 from pygame.sprite import Group
+from game_stats import GameStats
 
 import game_functions as gf
 
@@ -18,6 +19,8 @@ def run_game():
     screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
     pygame.display.set_caption(ai_settings.title)
 
+    stats = GameStats(ai_settings)
+
     ship = Ship(ai_settings, screen)
 
     alien = Alien(ai_settings, screen)
@@ -27,7 +30,7 @@ def run_game():
     # 创建一个用于存储外星人的数组
     aliens = Group()
 
-    gf.create_fleet(ai_settings, screen, aliens)
+    gf.create_fleet(ai_settings, screen, ship, aliens)
     # 设置背景色
     # bg_color = (230, 230, 230)
 
@@ -40,15 +43,19 @@ def run_game():
         #         sys.exit()
 
         gf.check_events(ai_settings, screen, ship, bullets)
-        ship.update()
-        # alien.blitme()
-        gf.update_bullets(bullets)
-        gf.update_screen(ai_settings, screen, ship, aliens, bullets)
-        # 填充颜色，只接受一个参数
-        # screen.fill(ai_settings.bg_color)
-        # ship.blitme()
-        # #         让最近绘制的屏幕可见
-        # pygame.display.flip()
+
+        if stats.game_active:
+            ship.update()
+            # alien.blitme()
+            gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
+
+            gf.update_aliens(ai_settings,stats,screen,ship, aliens,bullets)
+            gf.update_screen(ai_settings, screen, ship, aliens, bullets)
+            # 填充颜色，只接受一个参数
+            # screen.fill(ai_settings.bg_color)
+            # ship.blitme()
+            # #         让最近绘制的屏幕可见
+            # pygame.display.flip()
 
 
 run_game()
